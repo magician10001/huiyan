@@ -11,8 +11,8 @@ class Connect2CamPage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 20),
             Image.asset(
               'assets/cctv-camera.png', // Replace with the actual path to your drone sticker
               width: 200, // Adjust the width as needed

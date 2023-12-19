@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 
 class DroneStatusCard extends StatelessWidget {
-  final double speed; // Speed of the drone
-  final int batteryLevel; // Battery level of the drone
-  final String location; // Location of the drone
+  final double speed;
+  final int batteryLevel;
+  final String location;
 
-  // Constructor to initialize the data
-  DroneStatusCard({required this.speed, required this.batteryLevel, required this.location});
+  DroneStatusCard({
+    required this.speed,
+    required this.batteryLevel,
+    required this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5, // Card elevation for a shadow effect
-      margin: EdgeInsets.all(10), // Margin around the card
+      elevation: 5,
+      margin: EdgeInsets.all(10),
       child: Padding(
-        padding: EdgeInsets.all(15), // Padding within the card
+        padding: EdgeInsets.all(15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              'assets/drone.png', // Replace with the actual path to your drone image
-              width: 100, // Adjust the width as needed
-              height: 100, // Adjust the height as needed
+              'assets/drone.png',
+              width: 100,
+              height: 100,
             ),
-            SizedBox(width: 30), // Add some space between image and text
+            SizedBox(width: 30),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

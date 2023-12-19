@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seye/outdoor_page.dart';
 import 'current_time.dart';
 import 'draw_pool.dart';
 import 'drone_states_card.dart';
 import 'connect2drone_page.dart';
 import 'connect2cam_page.dart';
+import 'drone_status_provider.dart';
 
 String title = '';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,13 +20,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SSEye',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => DroneStatusProvider(),
+      child: MaterialApp(
+        title: 'SSEye',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(),
       ),
-      home: const MyHomePage(),
     );
   }
 }

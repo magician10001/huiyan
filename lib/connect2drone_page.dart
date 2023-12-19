@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'outdoor_page.dart';
 import 'http_get.dart';
-
+import 'drone_states_card.dart';
 
 class Connect2DronePage extends StatelessWidget {
   TextEditingController ipAddressController = TextEditingController();
@@ -15,8 +15,8 @@ class Connect2DronePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 20),
             Image.asset(
               'assets/drone_sticker.png', // Replace with the actual path to your drone sticker
               width: 250, // Adjust the width as needed
@@ -24,16 +24,18 @@ class Connect2DronePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+              padding: const EdgeInsets.only(left: 35, right: 35, bottom: 20),
               child: TextFormField(
                 controller: ipAddressController,
                 inputFormatters: [IpInputFormatter()],
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   labelText: '输入无人机的IP地址',
                   hintText: 'e.g., 192.168.0.1',
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.lightBlue, width: 2),
+                    borderSide:
+                        const BorderSide(color: Colors.lightBlue, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -47,25 +49,28 @@ class Connect2DronePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20, right: 20),
+        padding: const EdgeInsets.only(bottom: 6, right: 7),
         child: FloatingActionButton(
           onPressed: () async {
             // Get the entered IP address
             String ipAddress = ipAddressController.text;
 
             // Validate the IP address
-            if (await isValidIpAddress(ipAddress)) {
+            if (await checkIP(ipAddress, context)) {
               // Navigate to OutdoorPage and pass the IP address as a parameter
               Navigator.push(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => OutdoorPage(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      OutdoorPage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
                     const begin = 0.0;
                     const end = 1.0;
                     const curve = Curves.easeInOut;
 
-                    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
                     var opacityAnimation = animation.drive(tween);
 
                     return FadeTransition(
@@ -73,26 +78,6 @@ class Connect2DronePage extends StatelessWidget {
                       child: child,
                     );
                   },
-                ),
-              );
-
-            } else {
-              // Show an error message or handle invalid IP address
-              print('Invalid IP Address');
-
-              // Show a snackbar
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('IP地址无效，请检查无人机是否已连接到网络'),
-                  duration: const Duration(seconds: 3),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  elevation: 5,
-                  backgroundColor: Colors.blueGrey,
                 ),
               );
             }
@@ -104,11 +89,6 @@ class Connect2DronePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
-  }
-
-  Future<bool> isValidIpAddress(String input) async {
-    int result = await checkIP(input);
-    return result == 1;
   }
 }
 
