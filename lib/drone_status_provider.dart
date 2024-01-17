@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 class DroneStatus {
-  final double speed;
+  final int speed;
   final int battery;
   final String location;
+  final int height;
+  final int temperature;
+  final int flightTime;
 
   DroneStatus({
     required this.speed,
     required this.battery,
     required this.location,
+    required this.height,
+    required this.temperature,
+    required this.flightTime,
   });
 }
 
@@ -38,11 +44,11 @@ class DroneStatusProvider with ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> getDroneStatus() async {
-    final dio = Dio(BaseOptions(baseUrl: "http://10.15.229.17:5000", connectTimeout: const Duration(seconds: 3), receiveTimeout: const Duration(seconds: 3)));
+  Future<void> getDroneStatus(String drone_id) async {
+    final dio = Dio(BaseOptions(baseUrl: "http://116.63.13.38:80", connectTimeout: const Duration(seconds: 3), receiveTimeout: const Duration(seconds: 3)));
 
     try {
-      final response = await dio.get("/get_data");
+      final response = await dio.get("/get_data/$drone_id");
       if (response.statusCode == 200) {
         // Parse the response and return the result
         final Map<String, dynamic> responseData = response.data[0];
@@ -51,6 +57,9 @@ class DroneStatusProvider with ChangeNotifier {
           speed: responseData['speed'],
           battery: responseData['battery'],
           location: responseData['location'],
+          height: responseData['height'],
+          temperature: responseData['temp'],
+          flightTime: responseData['time'],
         );
         updateDroneStatus(status);
       } else {

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> checkIP(String ip, BuildContext context) async {
-  final dio = Dio(BaseOptions(baseUrl: "http://10.15.229.17:5000", connectTimeout: const Duration(seconds: 3), receiveTimeout: const Duration(seconds: 3)));
+Future<bool> checkID(String ip, BuildContext context) async {
+  final dio = Dio(BaseOptions(baseUrl: "http://116.63.13.38:80", connectTimeout: const Duration(seconds: 3), receiveTimeout: const Duration(seconds: 3)));
 
   try {
-    final response = await dio.get("/check_ip/$ip");
+    final response = await dio.get("/check_id/$ip");
 
     if (response.statusCode == 200) {
       // Parse the response and return the result

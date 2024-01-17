@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'outdoor_page.dart';
-import 'http_get.dart';
+import 'check_id.dart';
 import 'drone_states_card.dart';
 
 class Connect2DronePage extends StatelessWidget {
@@ -19,7 +19,7 @@ class Connect2DronePage extends StatelessWidget {
             const SizedBox(height: 20),
             Image.asset(
               'assets/drone_sticker.png', // Replace with the actual path to your drone sticker
-              width: 250, // Adjust the width as needed
+              width: 300, // Adjust the width as needed
               height: 250, // Adjust the height as needed
             ),
             const SizedBox(height: 20),
@@ -27,12 +27,12 @@ class Connect2DronePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 35, right: 35, bottom: 20),
               child: TextFormField(
                 controller: ipAddressController,
-                inputFormatters: [IpInputFormatter()],
+                //inputFormatters: [IpInputFormatter()],
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  labelText: '输入无人机的IP地址',
-                  hintText: 'e.g., 192.168.0.1',
+                  labelText: '输入无人机ID',
+                  hintText: 'e.g., tello-01',
                   focusedBorder: OutlineInputBorder(
                     borderSide:
                         const BorderSide(color: Colors.lightBlue, width: 2),
@@ -56,13 +56,13 @@ class Connect2DronePage extends StatelessWidget {
             String ipAddress = ipAddressController.text;
 
             // Validate the IP address
-            if (await checkIP(ipAddress, context)) {
+            if (await checkID(ipAddress, context)) {
               // Navigate to OutdoorPage and pass the IP address as a parameter
               Navigator.push(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      OutdoorPage(),
+                      OutdoorPage(drone_id: ipAddress),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     const begin = 0.0;
@@ -92,6 +92,7 @@ class Connect2DronePage extends StatelessWidget {
   }
 }
 
+/*
 class IpInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -111,3 +112,4 @@ class IpInputFormatter extends TextInputFormatter {
     }
   }
 }
+*/

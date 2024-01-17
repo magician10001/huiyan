@@ -66,6 +66,8 @@ flutter:
     - assets/drone.png
     - assets/drone_sticker.png
     - assets/cctv-camera.png
+    - assets/swimming.png
+    - assets/drowning.png
 
   fonts:
     - family: MyIcons
