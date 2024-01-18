@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SwimmingPoolDetectionCard extends StatelessWidget {
+  final int swimmerCount;
+  final int drowningCount;
+
+  SwimmingPoolDetectionCard({
+    required this.swimmerCount,
+    required this.drowningCount,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,14 +35,8 @@ class SwimmingPoolDetectionCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16),
-                const Text(
-                  '检测结果:',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                _buildDetectionResult('游泳者', true, 'assets/swimming.png'),
-                _buildDetectionResult('溺水者', true, 'assets/drowning.png'),
+                _buildDetectionResult('游泳者', swimmerCount, 'assets/swimming.png'),
+                _buildDetectionResult('溺水者', drowningCount, 'assets/drowning.png'),
               ],
             ),
           ),
@@ -54,7 +56,7 @@ class SwimmingPoolDetectionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDetectionResult(String element, bool detected, String image) {
+  Widget _buildDetectionResult(String element, int detected, String image) {
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -64,12 +66,12 @@ class SwimmingPoolDetectionCard extends StatelessWidget {
             CircleAvatar(
               backgroundImage: AssetImage(image),
               radius: 25,
-              child: detected
-                  ? null
-                  : Text(element[0], style: const TextStyle(fontSize: 20)),
+              // child: detected
+              //     ? null
+              //     : Text(element[0], style: const TextStyle(fontSize: 20)),
             ),
             const SizedBox(width: 50),
-            Text('$element: ${detected ? 'Detected' : 'Not Detected'}',
+            Text('$element: ${detected > 0 ? '$detected' : 'Not Detected'}',
                 style: const TextStyle(fontSize: 18)),
           ],
         ),
@@ -78,11 +80,11 @@ class SwimmingPoolDetectionCard extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(title: const Text('Flutter Swimming Pool Detection')),
-      body: SwimmingPoolDetectionCard(),
-    ),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: Scaffold(
+//       appBar: AppBar(title: const Text('Flutter Swimming Pool Detection')),
+//       body: SwimmingPoolDetectionCard(),
+//     ),
+//   ));
+// }

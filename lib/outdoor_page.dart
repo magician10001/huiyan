@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seye/drone_status_provider.dart';
+import 'package:seye/detection_result_provider.dart';
 import 'drone_states_card.dart';
 import 'dart:async';
 import 'detection_result_card.dart';
@@ -24,6 +25,7 @@ class _OutdoorPageState extends State<OutdoorPage> {
     // Start a timer to get drone status every 3 seconds
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       Provider.of<DroneStatusProvider>(context, listen: false).getDroneStatus(widget.drone_id);
+      Provider.of<DetectionResultProvider>(context, listen: false).getDetectionResult(widget.drone_id);
     });
   }
 
@@ -36,12 +38,26 @@ class _OutdoorPageState extends State<OutdoorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Drone Status'),
+        title: Text('${widget.drone_id}监测中'),
       ),
       body: Column(
         children: [
-          DetectionResultCard(result: 'result', time: 'time'),
-          SwimmingPoolDetectionCard(),
+          Consumer<DetectionResultProvider>(
+            builder: (context, detectionResultProvider, child) {
+              return DetectionResultCard(
+                drowningCount: detectionResultProvider.detectionResult?.drowningCount ?? -1,
+                time: 'time'
+              );
+            },
+          ),
+          Consumer<DetectionResultProvider>(
+            builder: (context, detectionResultProvider, child) {
+              return SwimmingPoolDetectionCard(
+                swimmerCount: detectionResultProvider.detectionResult?.swimmerCount ?? 0,
+                drowningCount: detectionResultProvider.detectionResult?.drowningCount ?? 0,
+              );
+            },
+          ),
           // Use Consumer to listen to changes in DroneStatusProvider
           Consumer<DroneStatusProvider>(
             builder: (context, droneStatusProvider, child) {

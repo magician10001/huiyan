@@ -7,6 +7,7 @@ import 'drone_states_card.dart';
 import 'connect2drone_page.dart';
 import 'connect2cam_page.dart';
 import 'drone_status_provider.dart';
+import 'detection_result_provider.dart';
 
 String title = '';
 
@@ -20,8 +21,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DroneStatusProvider(),
+    return MultiProvider(
+      providers: [
+        // Create a provider for DroneStatusProvider
+        ChangeNotifierProvider(create: (_) => DroneStatusProvider()),
+        // Create a provider for DetectionResultProvider
+        ChangeNotifierProvider(create: (_) => DetectionResultProvider()),
+      ],
       child: MaterialApp(
         title: 'SSEye',
         theme: ThemeData(
